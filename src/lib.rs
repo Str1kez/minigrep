@@ -36,3 +36,15 @@ fn find_query<'a>(query: &str, content: &'a str) -> Vec<FoundedLine<'a>> {
     }
     result
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn find_query_correct() {
+        let content = get_content("test.txt").expect("Error in get_content function");
+        let result = find_query("dreary", &content);
+        assert_eq!(result[0].line(), "How dreary to be somebody!")
+    }
+}
