@@ -1,6 +1,6 @@
-use std::env;
-
-pub fn parse_args(mut args: env::Args) -> Result<(String, String), &'static str> {
+pub fn parse_args<T: Iterator<Item = String>>(
+    mut args: T,
+) -> Result<(String, String), &'static str> {
     args.next();
     let query = match args.next() {
         Some(query) => query,

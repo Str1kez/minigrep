@@ -10,7 +10,7 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new(args: env::Args) -> Result<Config, Box<dyn Error>> {
+    pub fn new<T: Iterator<Item = String>>(args: T) -> Result<Config, Box<dyn Error>> {
         let (query, filename) = parse_args(args)?;
         let sensetive = env::var("CASE_INSENSETIVE").unwrap_or_default().is_empty();
         Ok(Config {
