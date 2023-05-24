@@ -18,23 +18,21 @@ pub fn run(config: &Config) -> Result<(), Box<dyn Error>> {
 }
 
 fn find_query_insensetive<'a>(query: &str, content: &'a str) -> Vec<FoundedLine<'a>> {
-    let mut result: Vec<FoundedLine> = Vec::new();
-    for (number, line) in content.lines().enumerate() {
-        if line.to_lowercase().contains(&query.to_lowercase()) {
-            result.push(FoundedLine::new(line, number.wrapping_add(1)))
-        }
-    }
-    result
+    content
+        .lines()
+        .enumerate()
+        .filter(|(_, line)| line.to_lowercase().contains(&query.to_lowercase()))
+        .map(|(number, line)| FoundedLine::new(line, number.wrapping_add(1)))
+        .collect()
 }
 
 fn find_query<'a>(query: &str, content: &'a str) -> Vec<FoundedLine<'a>> {
-    let mut result: Vec<FoundedLine> = Vec::new();
-    for (number, line) in content.lines().enumerate() {
-        if line.contains(query) {
-            result.push(FoundedLine::new(line, number.wrapping_add(1)))
-        }
-    }
-    result
+    content
+        .lines()
+        .enumerate()
+        .filter(|(_, line)| line.contains(query))
+        .map(|(number, line)| FoundedLine::new(line, number.wrapping_add(1)))
+        .collect()
 }
 
 #[cfg(test)]

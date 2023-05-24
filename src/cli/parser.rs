@@ -1,6 +1,14 @@
-pub fn parse_args(args: &[String]) -> Result<(&str, &str), &'static str> {
-    if args.len() < 3 {
-        return Err("Args not enough");
-    }
-    Ok((&args[1], &args[2]))
+use std::env;
+
+pub fn parse_args(mut args: env::Args) -> Result<(String, String), &'static str> {
+    args.next();
+    let query = match args.next() {
+        Some(query) => query,
+        None => return Err("Couldn't get query from args"),
+    };
+    let filename = match args.next() {
+        Some(filename) => filename,
+        None => return Err("Couldn't get filename from args"),
+    };
+    Ok((query, filename))
 }
